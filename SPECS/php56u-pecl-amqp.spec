@@ -1,3 +1,4 @@
+#IUS spec file for php56u-pecl-amqp, forked from:
 # Fedora spec file for php-pecl-amqp
 #
 # Copyright (c) 2012-2015 Remi Collet
@@ -13,31 +14,31 @@
 %global with_zts    0%{?__ztsphp:1}
 %global with_tests  0%{?_with_tests:1}
 %global pecl_name   amqp
+%global php_base php56u
 %if "%{php_version}" < "5.6"
 %global ini_name    %{pecl_name}.ini
 %else
 %global ini_name    40-%{pecl_name}.ini
 %endif
-#global prever      beta4
 
 Summary:       Communicate with any AMQP compliant server
-Name:          php-pecl-amqp
+Name:          %{php_base}-pecl-%{pecl_name}
 Version:       1.6.1
-Release:       1%{?dist}
+Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/amqp
 Source0:       http://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
 
-BuildRequires: php-devel > 5.2.0
-BuildRequires: php-pear
+BuildRequires: %{php_base}-devel
+BuildRequires: %{php_base}-pear
 BuildRequires: librabbitmq-devel >= 0.5.2
 %if %{with_tests}
 BuildRequires: rabbitmq-server
 %endif
 
-Requires:         php(zend-abi) = %{php_zend_api}
-Requires:         php(api) = %{php_core_api}
+Requires:         %{php_base}(zend-abi) = %{php_zend_api}
+Requires:         %{php_base}(api) = %{php_core_api}
 Requires(post):   %{__pecl}
 Requires(postun): %{__pecl}
 
@@ -45,6 +46,11 @@ Provides:         php-%{pecl_name} = %{version}
 Provides:         php-%{pecl_name}%{?_isa} = %{version}
 Provides:         php-pecl(%{pecl_name}) = %{version}
 Provides:         php-pecl(%{pecl_name})%{?_isa} = %{version}
+
+Provides:         %{php_base}-%{pecl_name} = %{version}
+Provides:         %{php_base}-%{pecl_name}%{?_isa} = %{version}
+Provides:         %{php_base}(%{pecl_name}) = %{version}
+Provides:         %{php_base}(%{pecl_name})%{?_isa} = %{version}
 
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # filter private shared
@@ -235,6 +241,9 @@ fi
 
 
 %changelog
+* Thu Dec 10 2015 Ben Harper <ben.harper@rackspace.com> - 1.6.1-1.ius
+- Port from Fedora to IUS
+
 * Thu Nov 26 2015 Remi Collet <remi@fedoraproject.org> - 1.6.1-1
 - update to 1.6.1 (stable)
 
