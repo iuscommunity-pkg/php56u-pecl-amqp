@@ -7,9 +7,6 @@
 #
 # Please, preserve the changelog entries
 #
-%{!?php_inidir:  %global php_inidir  %{_sysconfdir}/php.d}
-%{!?__pecl:      %global __pecl      %{_bindir}/pecl}
-%{!?__php:       %global __php       %{_bindir}/php}
 
 %global with_zts    0%{?__ztsphp:1}
 %global with_tests  0%{?_with_tests:1}
