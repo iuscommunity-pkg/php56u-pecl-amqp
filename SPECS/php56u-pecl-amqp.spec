@@ -15,11 +15,7 @@
 %global with_tests  0%{?_with_tests:1}
 %global pecl_name   amqp
 %global php_base php56u
-%if "%{php_version}" < "5.6"
-%global ini_name    %{pecl_name}.ini
-%else
 %global ini_name    40-%{pecl_name}.ini
-%endif
 
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php_base}-pecl-%{pecl_name}
