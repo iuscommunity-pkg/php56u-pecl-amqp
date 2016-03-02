@@ -17,7 +17,7 @@
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php_base}-pecl-%{pecl_name}
 Version:       1.6.1
-Release:       1.ius%{?dist}
+Release:       2.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/amqp
@@ -32,8 +32,8 @@ BuildRequires: rabbitmq-server
 
 Requires:         %{php_base}(zend-abi) = %{php_zend_api}
 Requires:         %{php_base}(api) = %{php_core_api}
-Requires(post):   %{__pecl}
-Requires(postun): %{__pecl}
+Requires(post):   %{php_base}-pear
+Requires(postun): %{php_base}-pear
 
 Provides:         php-%{pecl_name} = %{version}
 Provides:         php-%{pecl_name}%{?_isa} = %{version}
@@ -234,6 +234,9 @@ fi
 
 
 %changelog
+* Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
+- Explicitly require IUS pear package
+
 * Thu Dec 10 2015 Ben Harper <ben.harper@rackspace.com> - 1.6.1-1.ius
 - Port from Fedora to IUS
 
