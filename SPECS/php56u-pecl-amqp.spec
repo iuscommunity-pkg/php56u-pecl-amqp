@@ -51,6 +51,9 @@ Provides:         %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
 Provides:         php-pecl-%{pecl_name} = %{version}-%{release}
 Provides:         php-pecl-%{pecl_name}%{?_isa} = %{version}-%{release}
 
+# conflict with the stock name
+Conflicts:        php-pecl-%{pecl_name} < %{version}-%{release}
+
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # filter private shared
 %{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
@@ -243,6 +246,7 @@ fi
 * Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
 - Explicitly require IUS pear package
 - Clean up provides
+- Conflict with stock package
 
 * Thu Dec 10 2015 Ben Harper <ben.harper@rackspace.com> - 1.6.1-1.ius
 - Port from Fedora to IUS
