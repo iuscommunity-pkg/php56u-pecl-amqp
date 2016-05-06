@@ -54,11 +54,11 @@ Provides:         %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
 # conflict with the stock name
 Conflicts:        php-pecl-%{pecl_name} < %{version}
 
-%if 0%{?fedora} < 20 && 0%{?rhel} < 7
-# filter private shared
-%{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
+# RPM 4.8
+%{?filter_provides_in: %filter_provides_in %{php_extdir}/.*\.so$}
 %{?filter_setup}
-%endif
+# RPM 4.9
+%global __provides_exclude_from %{?__provides_exclude_from:%__provides_exclude_from|}%{php_extdir}/.*\\.so$
 
 
 %description
@@ -247,6 +247,7 @@ fi
 - Latest upstream
 - Install package.xml as %%{pecl_name}.xml, not %%{name}.xml
 - Drop release from provides/conflict
+- Clean up filters
 
 * Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
 - Explicitly require IUS pear package
