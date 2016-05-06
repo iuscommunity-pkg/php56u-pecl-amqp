@@ -35,6 +35,10 @@ Requires:         %{php_base}(api) = %{php_core_api}
 Requires(post):   %{php_base}-pear
 Requires(postun): %{php_base}-pear
 
+# provide the stock name
+Provides:         php-pecl-%{pecl_name} = %{version}
+Provides:         php-pecl-%{pecl_name}%{?_isa} = %{version}
+
 # provide the stock and IUS names without pecl
 Provides:         php-%{pecl_name} = %{version}
 Provides:         php-%{pecl_name}%{?_isa} = %{version}
@@ -47,12 +51,8 @@ Provides:         php-pecl(%{pecl_name})%{?_isa} = %{version}
 Provides:         %{php_base}-pecl(%{pecl_name}) = %{version}
 Provides:         %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
 
-# provide the stock name
-Provides:         php-pecl-%{pecl_name} = %{version}-%{release}
-Provides:         php-pecl-%{pecl_name}%{?_isa} = %{version}-%{release}
-
 # conflict with the stock name
-Conflicts:        php-pecl-%{pecl_name} < %{version}-%{release}
+Conflicts:        php-pecl-%{pecl_name} < %{version}
 
 %if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # filter private shared
@@ -246,6 +246,7 @@ fi
 * Fri May 06 2016 Carl George <carl.george@rackspace.com> - 1.7.0-1.ius
 - Latest upstream
 - Install package.xml as %%{pecl_name}.xml, not %%{name}.xml
+- Drop release from provides/conflict
 
 * Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
 - Explicitly require IUS pear package
