@@ -72,7 +72,9 @@ from any queue.
 %setup -q -c
 
 # Don't install/register tests
-sed -e 's/role="test"/role="src"/' -i package.xml
+sed -e 's/role="test"/role="src"/' \
+    -e '/LICENSE/s/role="doc"/role="src"/' \
+    -i package.xml
 
 mv %{pecl_name}-%{version}%{?prever} NTS
 cd NTS
@@ -230,6 +232,8 @@ fi
 
 
 %files
+%{!?_licensedir:%global license %%doc}
+%license NTS/LICENSE
 %doc %{pecl_docdir}/%{pecl_name}
 %{pecl_xmldir}/%{pecl_name}.xml
 
@@ -248,6 +252,7 @@ fi
 - Install package.xml as %%{pecl_name}.xml, not %%{name}.xml
 - Drop release from provides/conflict
 - Clean up filters
+- Move license to correct directory
 
 * Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
 - Explicitly require IUS pear package
