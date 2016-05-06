@@ -78,6 +78,7 @@ sed -e 's/role="test"/role="src"/' \
 
 mv %{pecl_name}-%{version}%{?prever} NTS
 pushd NTS
+sed -e 's/CFLAGS="-I/CFLAGS="$CFLAGS -I/' -i config.m4
 
 # Upstream often forget to change this
 extver=$(sed -n '/#define PHP_AMQP_VERSION/{s/.* "//;s/".*$//;p}' php_amqp.h)
@@ -256,6 +257,7 @@ fi
 - Drop release from provides/conflict
 - Clean up filters
 - Move license to correct directory
+- Set CFLAGS in config.m4 (Fedora)
 
 * Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
 - Explicitly require IUS pear package
