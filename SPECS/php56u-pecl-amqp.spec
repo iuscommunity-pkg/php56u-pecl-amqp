@@ -16,8 +16,8 @@
 
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php_base}-pecl-%{pecl_name}
-Version:       1.6.1
-Release:       2.ius%{?dist}
+Version:       1.7.0
+Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/amqp
@@ -243,6 +243,9 @@ fi
 
 
 %changelog
+* Fri May 06 2016 Carl George <carl.george@rackspace.com> - 1.7.0-1.ius
+- Latest upstream
+
 * Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
 - Explicitly require IUS pear package
 - Clean up provides
