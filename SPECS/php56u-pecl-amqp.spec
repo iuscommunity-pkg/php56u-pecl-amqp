@@ -152,7 +152,7 @@ make -C NTS install INSTALL_ROOT=%{buildroot}
 install -Dpm 644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
 
 # Install XML package description
-install -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{name}.xml
+install -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{pecl_name}.xml
 
 %if %{with_zts}
 make -C ZTS install INSTALL_ROOT=%{buildroot}
@@ -220,7 +220,7 @@ exit $ret
 
 
 %post
-%{pecl_install} %{pecl_xmldir}/%{name}.xml >/dev/null || :
+%{pecl_install} %{pecl_xmldir}/%{pecl_name}.xml >/dev/null || :
 
 
 %postun
@@ -231,7 +231,7 @@ fi
 
 %files
 %doc %{pecl_docdir}/%{pecl_name}
-%{pecl_xmldir}/%{name}.xml
+%{pecl_xmldir}/%{pecl_name}.xml
 
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{pecl_name}.so
@@ -245,6 +245,7 @@ fi
 %changelog
 * Fri May 06 2016 Carl George <carl.george@rackspace.com> - 1.7.0-1.ius
 - Latest upstream
+- Install package.xml as %%{pecl_name}.xml, not %%{name}.xml
 
 * Wed Mar 02 2016 Carl George <carl.george@rackspace.com> - 1.6.1-2.ius
 - Explicitly require IUS pear package
