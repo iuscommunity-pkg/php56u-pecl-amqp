@@ -16,8 +16,8 @@
 
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php_base}-pecl-%{pecl_name}
-Version:       1.7.0
-Release:       2.ius%{?dist}
+Version:       1.7.1
+Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/amqp
@@ -250,7 +250,10 @@ fi
 
 
 %changelog
-* Thu Jun 16 2016 Ben Harper <ben.harper@rackspace.com> - 1.7.0.-2.ius
+* Mon Jul 11 2016 Carl George <carl.george@rackspace.com> - 1.7.1-1.ius
+- Latest upstream
+
+* Thu Jun 16 2016 Ben Harper <ben.harper@rackspace.com> - 1.7.0-2.ius
 - update filters to include zts
 
 * Fri May 06 2016 Carl George <carl.george@rackspace.com> - 1.7.0-1.ius
