@@ -1,4 +1,5 @@
-#IUS spec file for php56u-pecl-amqp, forked from:
+# IUS spec file for php56u-pecl-amqp, forked from:
+#
 # Fedora spec file for php-pecl-amqp
 #
 # Copyright (c) 2012-2015 Remi Collet
@@ -11,12 +12,12 @@
 %global with_zts    0%{?__ztsphp:1}
 %global with_tests  0%{?_with_tests:1}
 %global pecl_name   amqp
-%global php_base php56u
+%global php_base    php56u
 %global ini_name    40-%{pecl_name}.ini
 
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php_base}-pecl-%{pecl_name}
-Version:       1.7.1
+Version:       1.8.0
 Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
@@ -30,8 +31,8 @@ BuildRequires: librabbitmq-devel >= 0.5.2
 BuildRequires: rabbitmq-server
 %endif
 
-Requires:         %{php_base}(zend-abi) = %{php_zend_api}
-Requires:         %{php_base}(api) = %{php_core_api}
+Requires:         php(zend-abi) = %{php_zend_api}
+Requires:         php(api) = %{php_core_api}
 Requires(post):   %{php_base}-pear
 Requires(postun): %{php_base}-pear
 
@@ -54,7 +55,6 @@ Provides:         %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
 # conflict with the stock name
 Conflicts:        php-pecl-%{pecl_name} < %{version}
 
-# RPM 4.8
 %{?filter_provides_in: %filter_provides_in %{php_extdir}/.*\.so$}
 %{?filter_provides_in: %filter_provides_in %{php_ztsextdir}/.*\.so$}
 %{?filter_setup}
@@ -126,6 +126,11 @@ extension = %{pecl_name}.so
 ;amqp.channel_max = 256
 ;amqp.frame_max = 131072
 ;amqp.heartbeat = 0
+
+;amqp.cacert = ''
+;amqp.cert = ''
+;amqp.key = ''
+;amqp.verify = ''
 EOF
 
 %if %{with_zts}
@@ -229,13 +234,12 @@ exit $ret
 
 
 %postun
-if [ $1 -eq 0 ] ; then
+if [ $1 -eq 0 ]; then
     %{pecl_uninstall} %{pecl_name} >/dev/null || :
 fi
 
 
 %files
-%{!?_licensedir:%global license %%doc}
 %license NTS/LICENSE
 %doc %{pecl_docdir}/%{pecl_name}
 %{pecl_xmldir}/%{pecl_name}.xml
@@ -250,6 +254,9 @@ fi
 
 
 %changelog
+* Fri Feb 17 2017 Carl George <carl.george@rackspace.com> - 1.8.0-1.ius
+- Latest upstream
+
 * Mon Jul 11 2016 Carl George <carl.george@rackspace.com> - 1.7.1-1.ius
 - Latest upstream
 
