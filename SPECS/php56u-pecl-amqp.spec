@@ -9,11 +9,12 @@
 # Please, preserve the changelog entries
 #
 
-%global with_zts    0%{?__ztsphp:1}
-%global with_tests  0%{?_with_tests:1}
 %global pecl_name   amqp
 %global php         php56u
 %global ini_name    40-%{pecl_name}.ini
+
+%bcond_without zts
+%bcond_with tests
 
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php}-pecl-%{pecl_name}
@@ -27,7 +28,7 @@ Source0:       http://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
 BuildRequires: %{php}-devel
 BuildRequires: %{php}-pear
 BuildRequires: librabbitmq-devel >= 0.5.2
-%if %{with_tests}
+%if %{with tests}
 # https://github.com/pdezwart/php-amqp/pull/234
 BuildRequires: rabbitmq-server >= 3.4.0
 %endif
@@ -134,7 +135,7 @@ extension = %{pecl_name}.so
 ;amqp.verify = ''
 EOF
 
-%if %{with_zts}
+%if %{with zts}
 cp -pr NTS ZTS
 %endif
 
@@ -146,7 +147,7 @@ pushd NTS
 make %{?_smp_mflags}
 popd
 
-%if %{with_zts}
+%if %{with zts}
 pushd ZTS
 %{_bindir}/zts-phpize
 %configure --with-php-config=%{_bindir}/zts-php-config
@@ -164,7 +165,7 @@ install -Dpm 644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
 # Install XML package description
 install -Dpm 644 package.xml %{buildroot}%{pecl_xmldir}/%{pecl_name}.xml
 
-%if %{with_zts}
+%if %{with zts}
 make -C ZTS install INSTALL_ROOT=%{buildroot}
 install -Dpm 644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 %endif
@@ -183,14 +184,14 @@ popd
     --define extension=NTS/modules/%{pecl_name}.so \
     -m | grep %{pecl_name}
 
-%if %{with_zts}
+%if %{with zts}
 : Minimal load test for ZTS extension
 %{__ztsphp} --no-php-ini \
     --define extension=ZTS/modules/%{pecl_name}.so \
     -m | grep %{pecl_name}
 %endif
 
-%if %{with_tests}
+%if %{with tests}
 mkdir log run base
 : Launch the RabbitMQ service
 # use a random port and node name to avoid conflicts
@@ -213,7 +214,7 @@ REPORT_EXIT_STATUS=1 \
 %{__php} -n run-tests.php --show-diff || ret=1
 popd
 
-%if %{with_zts}
+%if %{with zts}
 pushd ZTS
 : Run the upstream test Suite for ZTS extension
 sed -e "s/5672/$RABBITMQ_NODE_PORT/" -i tests/*.phpt
@@ -253,7 +254,7 @@ fi
 %config(noreplace) %{php_inidir}/%{ini_name}
 %{php_extdir}/%{pecl_name}.so
 
-%if %{with_zts}
+%if %{with zts}
 %config(noreplace) %{php_ztsinidir}/%{ini_name}
 %{php_ztsextdir}/%{pecl_name}.so
 %endif
@@ -264,6 +265,7 @@ fi
 - Latest upstream
 - Set minimum rabbitmq-server version for test suite
 - Use a random port and node name to avoid conflicts during test suite
+- Use modern conditionals for zts and tests
 
 * Fri Feb 17 2017 Carl George <carl.george@rackspace.com> - 1.8.0-1.ius
 - Latest upstream
