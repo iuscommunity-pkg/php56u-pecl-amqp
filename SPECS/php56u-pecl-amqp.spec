@@ -193,6 +193,9 @@ popd
 %if %{with_tests}
 mkdir log run base
 : Launch the RabbitMQ service
+# use a random port and node name to avoid conflicts
+export RABBITMQ_NODE_PORT=%(shuf -i 5000-5999 -n 1)
+export RABBITMQ_NODENAME=rabbit$RABBITMQ_NODE_PORT
 export RABBITMQ_PID_FILE=$PWD/run/pid
 export RABBITMQ_LOG_BASE=$PWD/log
 export RABBITMQ_MNESIA_BASE=$PWD/base
@@ -202,8 +205,9 @@ export RABBITMQ_MNESIA_BASE=$PWD/base
 ret=0
 pushd NTS
 : Run the upstream test Suite for NTS extension
+sed -e "s/5672/$RABBITMQ_NODE_PORT/" -i tests/*.phpt
 TEST_PHP_EXECUTABLE=%{__php} \
-TEST_PHP_ARGS="-n -d extension=$PWD/modules/%{pecl_name}.so" \
+TEST_PHP_ARGS="-n -d extension=$PWD/modules/%{pecl_name}.so -d amqp.port=$RABBITMQ_NODE_PORT" \
 NO_INTERACTION=1 \
 REPORT_EXIT_STATUS=1 \
 %{__php} -n run-tests.php --show-diff || ret=1
@@ -212,8 +216,9 @@ popd
 %if %{with_zts}
 pushd ZTS
 : Run the upstream test Suite for ZTS extension
+sed -e "s/5672/$RABBITMQ_NODE_PORT/" -i tests/*.phpt
 TEST_PHP_EXECUTABLE=%{__ztsphp} \
-TEST_PHP_ARGS="-n -d extension=$PWD/modules/%{pecl_name}.so" \
+TEST_PHP_ARGS="-n -d extension=$PWD/modules/%{pecl_name}.so -d amqp.port=$RABBITMQ_NODE_PORT" \
 NO_INTERACTION=1 \
 REPORT_EXIT_STATUS=1 \
 %{__ztsphp} -n run-tests.php --show-diff || ret=1
@@ -258,6 +263,7 @@ fi
 * Tue Mar 21 2017 Carl George <carl.george@rackspace.com> - 1.9.0-1.ius
 - Latest upstream
 - Set minimum rabbitmq-server version for test suite
+- Use a random port and node name to avoid conflicts during test suite
 
 * Fri Feb 17 2017 Carl George <carl.george@rackspace.com> - 1.8.0-1.ius
 - Latest upstream
