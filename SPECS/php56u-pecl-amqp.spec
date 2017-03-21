@@ -28,7 +28,8 @@ BuildRequires: %{php}-devel
 BuildRequires: %{php}-pear
 BuildRequires: librabbitmq-devel >= 0.5.2
 %if %{with_tests}
-BuildRequires: rabbitmq-server
+# https://github.com/pdezwart/php-amqp/pull/234
+BuildRequires: rabbitmq-server >= 3.4.0
 %endif
 
 Requires:         php(zend-abi) = %{php_zend_api}
@@ -256,6 +257,7 @@ fi
 %changelog
 * Tue Mar 21 2017 Carl George <carl.george@rackspace.com> - 1.9.0-1.ius
 - Latest upstream
+- Set minimum rabbitmq-server version for test suite
 
 * Fri Feb 17 2017 Carl George <carl.george@rackspace.com> - 1.8.0-1.ius
 - Latest upstream
