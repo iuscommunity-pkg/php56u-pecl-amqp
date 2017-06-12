@@ -18,7 +18,7 @@
 
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php}-pecl-%{pecl_name}
-Version:       1.9.0
+Version:       1.9.1
 Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
@@ -261,6 +261,9 @@ fi
 
 
 %changelog
+* Mon Jun 12 2017 Carl George <carl.george@rackspace.com> - 1.9.1-1.ius
+- Latest upstream
+
 * Tue Mar 21 2017 Carl George <carl.george@rackspace.com> - 1.9.0-1.ius
 - Latest upstream
 - Set minimum rabbitmq-server version for test suite
