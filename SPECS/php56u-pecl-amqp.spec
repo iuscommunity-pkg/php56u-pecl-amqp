@@ -18,7 +18,7 @@
 
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php}-pecl-%{pecl_name}
-Version:       1.9.1
+Version:       1.9.3
 Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
@@ -261,6 +261,9 @@ fi
 
 
 %changelog
+* Thu Oct 19 2017 Ben Harper <ben.harper@rackspace.com> -  1.9.3-1.ius
+- Latest upstream
+
 * Mon Jun 12 2017 Carl George <carl.george@rackspace.com> - 1.9.1-1.ius
 - Latest upstream
 
