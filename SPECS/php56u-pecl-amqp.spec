@@ -10,8 +10,8 @@
 #
 
 %global pecl_name   amqp
-%global php         php56u
 %global ini_name    40-%{pecl_name}.ini
+%global php         php56u
 
 %bcond_without zts
 %bcond_with tests
@@ -19,7 +19,7 @@
 Summary:       Communicate with any AMQP compliant server
 Name:          %{php}-pecl-%{pecl_name}
 Version:       1.9.3
-Release:       1.ius%{?dist}
+Release:       2.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/amqp
@@ -27,7 +27,7 @@ Source0:       http://pecl.php.net/get/%{pecl_name}-%{version}%{?prever}.tgz
 
 BuildRequires: %{php}-devel
 BuildRequires: %{php}-pear
-BuildRequires: librabbitmq-devel >= 0.5.2
+BuildRequires: pkgconfig(librabbitmq) >= 0.5.2
 %if %{with tests}
 # https://github.com/pdezwart/php-amqp/pull/234
 BuildRequires: rabbitmq-server >= 3.4.0
@@ -144,14 +144,14 @@ cp -pr NTS ZTS
 pushd NTS
 %{_bindir}/phpize
 %configure --with-php-config=%{_bindir}/php-config
-make %{?_smp_mflags}
+%make_build
 popd
 
 %if %{with zts}
 pushd ZTS
 %{_bindir}/zts-phpize
 %configure --with-php-config=%{_bindir}/zts-php-config
-make %{?_smp_mflags}
+%make_build
 popd
 %endif
 
@@ -261,6 +261,9 @@ fi
 
 
 %changelog
+* Tue May 15 2018 Carl George <carl@george.computer> - 1.9.3-2.ius
+- Rebuild for EL7.5
+
 * Thu Oct 19 2017 Ben Harper <ben.harper@rackspace.com> -  1.9.3-1.ius
 - Latest upstream
 
